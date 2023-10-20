@@ -1,0 +1,294 @@
+<style>
+  #section-{{ section.id }} {
+   background-color: hsla(0, 0%, 0%, 0.03);
+  }
+  
+  .features-container {
+      margin: auto;
+    width: 75%;
+      height: 80svh;
+      padding: 2.5em 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 1em;
+  }
+  
+  .tabs-container {
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      color: black;
+      gap: 1em;
+  }
+  
+  .detail-container {
+      width: 75%;
+      height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: white;
+    }
+  
+  .tab-heading{
+      font-size: 1em;
+  }
+  
+  .feature-tab {
+      height: 100%;
+      outline: 1px solid transparent;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 250ms all ease-in-out;
+      opacity: 0.7;
+      background-color: white;
+      padding: 1em;
+  }
+  
+  .feature-tab:hover {
+      opacity: 1;
+  }
+  
+  .feature-tab.active {
+      outline: 2px solid dodgerBlue;
+      opacity: 1;
+  }
+  
+  
+  .feature-detail {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    opacity:0;
+    transition: 250ms all ease-in-out;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-media {
+    height: 80%;
+    width: 80%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 99;
+  }
+  
+  .feature-detail.active {
+   opacity: 1;
+}
+
+  
+  
+  
+</style>
+
+<!--
+  This is an example of how to display a setting with a section and make
+  it clickable in the theme editor with a kjb-settings-id
+-->
+<div class="section">
+  <div class="container-fluid">
+    <h3 kjb-settings-id="{{ 'heading' | settings_id: section: section }}">
+      {{ section.settings.heading }}
+    </h3>
+    <div kjb-settings-id="{{ 'body' | settings_id: section: section }}">
+      {{ section.settings.body }}
+      
+      <div kjb-settings-id={{ 'features' | settings_id: section: section }} class='features-container'>
+          <div kjb-settings-id={{ 'tabs' | settings_id: section: section }} class='tabs-container'></div>
+          
+          <div kjb-settings-id={{ 'details' | settings_id: section: section }} class='detail-container'></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+const transition = 400
+const delay = 100
+
+document.addEventListener('DOMContentLoaded', function() {
+  const data = [
+    {
+      name: 'feature_1',
+      label: 'This is feature 1',
+      detail: {heading: 'A bit more detailed explanation', description: 'This is where we go into detail in explaining everything about the Marco Cirillo experience'},
+      mediaType: 'image',
+      bgUrl: 'https://res.cloudinary.com/dtnif6mzm/image/upload/v1697626222/Marco%20Cirillo/Pic_6_-_Classical_Guitar_-_Original_geyr6g_jdcxvl.jpg'
+    },
+    {
+      name: 'feature_2',
+      label: 'This is feature 2',
+      detail: {heading: 'A bit more detailed explanation', description: 'This is where we go into detail in explaining everything about the Marco Cirillo experience'},
+      mediaType: 'video',
+      bgUrl: 'https://www.youtube.com/embed/D-MHHZoO3W0?si=jUk3M8gcWKIUZseJ'
+    },
+    {
+      name: 'feature_3',
+      label: 'This is feature 3',
+      detail: {heading: 'A bit more detailed explanation', description: 'This is where we go into detail in explaining everything about the Marco Cirillo experience'},
+      mediaType: 'video',
+      bgUrl: "https://player.vimeo.com/video/783455878?h=46672b3b96"
+    },
+    {
+      name: 'feature_4',
+      label: 'This is feature 4',
+      detail: {heading: 'A bit more detailed explanation', description: 'This is where we go into detail in explaining everything about the Marco Cirillo experience'},
+      mediaType: 'image',
+      bgUrl: 'https://res.cloudinary.com/dtnif6mzm/image/upload/v1697626222/Marco%20Cirillo/Pic_6_-_Classical_Guitar_-_Original_geyr6g_jdcxvl.jpg'
+    },
+    {
+      name: 'feature_5',
+      label: 'This is feature 5',
+      detail: {heading: 'A bit more detailed explanation', description: 'This is where we go into detail in explaining everything about the Marco Cirillo experience'},
+      mediaType: 'image',
+      bgUrl: 'https://res.cloudinary.com/dtnif6mzm/image/upload/v1697626222/Marco%20Cirillo/Pic_6_-_Classical_Guitar_-_Original_geyr6g_jdcxvl.jpg'
+    }
+  ];
+
+  var tabs = document.querySelector('.tabs-container');
+  var details = document.querySelector('.detail-container');
+
+  data.forEach(function(item, index) {
+  console.log(index)
+    var tab = document.createElement('div');
+    tab.setAttribute("kjb-settings-id", "{{ 'tab' | settings_id: section: section }}")
+    tab.className = 'feature-tab';
+    
+    var detail = document.createElement('div');
+    detail.className = 'feature-detail';
+
+var mediaContainer;
+
+if (item.mediaType === 'image') {
+    mediaContainer = document.createElement('div');
+    mediaContainer.className = 'feature-media';
+    mediaContainer.style.backgroundImage = `url(${item.bgUrl})`;
+} else if (item.mediaType === 'video') {
+    mediaContainer = document.createElement('iframe');
+    mediaContainer.className = 'feature-media';
+    mediaContainer.src = item.bgUrl;
+    mediaContainer.title = 'Vimeo video player';
+    mediaContainer.setAttribute('frameborder', '0');
+    mediaContainer.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+    mediaContainer.setAttribute('allowfullscreen', 'false');
+    mediaContainer.width="440" 
+    mediaContainer.height="260"
+}
+
+    var title = document.createElement('h4');
+    title.innerText = item.label;
+    title.className = 'tab-heading';
+
+    var a = document.createElement('a');
+    a.href = item.link;
+    a.innerText = item.title;
+    a.target = '_blank';
+    a.className = 'slide-link';
+    
+    var description = document.createElement('p')
+    description.innerText = item.detail.description
+    
+    var detailHeading = document.createElement('h4')
+    detailHeading.innerText = item.detail.heading
+    
+
+    tab.addEventListener('click', () => {
+      var allTabs = document.querySelectorAll('.feature-tab');
+      allTabs.forEach(item => item.classList.remove('active'));
+      
+      tab.classList.add('active');
+      var allDetails = document.querySelectorAll('.feature-detail');
+      allDetails.forEach(item => item.classList.remove('active'));
+      setTimeout(() => {
+      detail.classList.add('active');
+      
+      }, transition)
+    });
+    
+
+    tab.appendChild(title);
+    tabs.appendChild(tab);
+    
+    
+    detail.appendChild(detailHeading);
+    detail.appendChild(description);
+    detail.appendChild(mediaContainer);
+    details.appendChild(detail);
+  });
+  
+  var firstTab = document.querySelector('.feature-tab')
+  var firstDetail = document.querySelector('.feature-detail')
+  firstTab.classList.add('active')
+  firstDetail.classList.add('active')
+});
+
+</script>
+
+<!--
+  Section Schema
+  The Schema is what drives the elements, blocks and presets for this particular
+  section. Elements define the setting for the section, while blocks allow you
+  to define sub-sections to add an arrange in this section.
+
+  Presets define what shows up in the theme editor when a user clicks "Add Section"
+-->
+{% schema %}
+{
+  "name": "Features Landing Page",
+  "elements": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "This is an example setting of a heading"
+    },
+    {
+      "type": "rich_text",
+      "id": "body",
+      "label": "Body",
+      "default": "This is an example setting of a paragraph"
+    },
+    {
+      "type": "rich_text",
+      "id": "features",
+      "label": "Features",
+      "default": "Features"
+    },
+    {
+      "type": "text",
+      "id": "tab",
+      "label": "Feature Tab",
+      "default": "Tab"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Features Landing Page",
+      "category": "Content",
+      "blocks": [
+                    {
+            "type": "text",
+            "id": "tabs",
+            "label": "Heading",
+            "default": "Author"
+          }
+          ],
+      "settings": {
+      }
+    }
+  ]
+
+}
+{% endschema %}
