@@ -1,0 +1,300 @@
+<style>
+
+@media (min-width: 499px) {
+  #section-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .carousel-heading {
+      width: 90%;
+      margin-left: 6%;
+  }
+  
+  .carousel-description {
+      margin-left: 6%;
+      width: 90%;
+  }
+  
+   .slick-carousel {
+            width: 90%; /* Adjust the width as needed */
+            margin: 0 auto;
+            height: 65svh;
+            display: flex;
+            align-items: flex-start;
+
+        }
+
+     .slick-slide {
+        background: #fff;
+        margin: 0 0.5em;
+        min-height: 500px;
+        height: 65svh;
+        width: 100%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        align-items: end;
+        text-align: center;
+        border-radius: 16px;
+        transition: 250ms all ease-in-out;
+        z-index: 0;
+        transform: translateY(0.2%);
+    }
+    
+    .slick-slide:hover {
+        transform: translateY(0%);
+    }
+    
+    .slide-block {
+        position: relative;
+        height: 100%;
+        display: flex;
+        padding: 1.5em;
+        align-items: flex-end;
+        jusityf-content: center;
+        transition: 250ms all ease-in-out;
+        background: linear-gradient(0deg, rgba(0,0,0,0) 23%, rgba(255,255,255,0) 50%);
+        text-align: left;
+        border-radius: 16px;
+    }
+    
+    .slide-block:hover {
+            
+            background: linear-gradient(0deg, rgba(0,0,0,0.5) 23%, rgba(255,255,255,0) 50%);
+    }
+    
+    .slide-block a {
+        color: white;
+    }
+
+        .slide-link {
+            line-height: 1.1em;
+            font-weight:900;
+            font-size: 2.5em;
+            bottom: 10%
+            color: white;
+            z-index: 99;
+            text-wrap: ellipsis;
+            text-decoration: none;
+        }
+
+        .slick-prev {
+            position: absolute;
+            left: 100px;
+            z-index: 100;
+        }
+        .slick-next {
+            right: 150px;
+            z-index: 100;
+            <!--position: absolute;-->
+
+        }
+
+        
+        .carousel-wrapper {
+            width: 100svw;
+            height: 70svh;
+        }
+        
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0;
+            width: 10%;
+            height: 83%;
+            z-index: 1;
+            right: 0;
+            background: rgb(255,255,255);
+            background: linear-gradient(90deg, rgba(255,255,255,0) 20%, rgba(255,255,255,1) 100%);
+            
+        }
+        
+        .carousel-overlay .left {
+            left: 0;
+        }
+        .carousel-overlay .right {
+            left: 0;
+            background-color: green;
+        }
+
+        .slick-next.slick-arrow:before {
+            color: black;
+            border-radius: 100%;
+            height: 20px;
+            width: 30px;
+            padding: 1em;
+            background-color: rgb(255,255,255, 0.7);
+        }
+        .slick-prev.slick-arrow:before {
+            color: black;
+            border-radius: 100%;
+            height: 20px;
+            width: 30px;
+            padding: 1em;
+            background-color: rgb(255,255,255, 0.7);
+        }
+}
+
+</style>
+
+<!--
+  This is an example of how to display a setting with a section and make
+  it clickable in the theme editor with a kjb-settings-id
+-->
+<div class="section">
+  <div class="container-fluid">
+    <h3 kjb-settings-id="{{ 'heading' | settings_id: section: section }}" class='carousel-heading'>
+      {{ section.settings.heading }}
+    </h3>
+    <div kjb-settings-id="{{ 'body' | settings_id: section: section }}" class='carousel-description'>
+      {{ section.settings.body }}
+    </div>
+    <div class='carousel-wrapper'>
+    <div class='carousel-overlay right'></div>
+    <div class='carousel-overlay left'></div>
+    <div class="slick-carousel">
+
+    </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+ document.addEventListener('resize', function() {
+     console.log(window.innerWidth > 500)
+ })
+
+ document.addEventListener('DOMContentLoaded', function() {
+  // Array of objects with schema { title, imgUrl, link }
+  var cropFactor = 'c_crop,w_518,h_920,ar_9:16/'
+  
+var data = [
+    { title: 'Classical Guitar', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625389/Marco%20Cirillo/Pic_6_-_Classical_Guitar_-_Original_geyr6g_jet9pc.jpg', link: '#' },
+    { title: 'Baritone Ukulele', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625388/Marco%20Cirillo/Pic_7_-_Baritone_Ukulele_-_Original_adguoc_pvkn2w.jpg', link: '#' },
+    { title: 'Electric Guitar', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625389/Marco%20Cirillo/Pic_7_-_Electric_Guitar_-_Original_kaogax_1_et9xog.jpg', link: '#' },
+    { title: 'Youtube Tabs', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625389/Marco%20Cirillo/Pic_5_-_YouTube_Tabs_-_Original_q15im8_ybqsfx.jpg', link: '#' },
+    { title: 'Daily Uke Challenge', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16//v1697625390/Marco%20Cirillo/Pic_1_Daily_Uke_Challenge_-_Original_dnqr85_b12omg.jpg', link: '#' },
+    { title: 'Ukulele Fingerstyle Basics', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625390/Marco%20Cirillo/Pic_2_._Ukulele_Fingerstyle_Basics_-_Original_un18jm_huabii.jpg', link: '#' },
+    { title: 'Daily Guitar Challenge', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625389/Marco%20Cirillo/Pic_3_-_Daily_Guitar_Challenge_-_Original_y86nx2_tubwge.jpg', link: '/somepage' },
+    { title: 'Spanish Ukulele', imgUrl: 'https://res.cloudinary.com/dlxpbjhby/image/upload/c_crop,w_518,h_920,ar_9:16/v1697625388/Marco%20Cirillo/Pic_4_-_Spanish_Ukulele_-_Original_wz9oku_s5vnbs.jpg', link: '#' },
+];
+
+
+  var carousel = document.querySelector('.slick-carousel');
+
+  // Loop through the data and create slides
+  data.forEach(function(item) {
+    var slide = document.createElement('div');
+    slide.className = 'slick-slide';
+
+    // Set the background image of the slide
+    slide.style.backgroundImage = `url(${item.imgUrl})`;
+
+    var title = document.createElement('h2');
+    title.innerText = item.title;
+    title.className = 'slide-heading';
+    
+    var block = document.createElement('div')
+    block.className = 'slide-block';
+
+    var a = document.createElement('a');
+    a.href = item.link;
+    a.innerText = item.title
+    a.target = '_blank';
+    a.className = 'slide-link'
+    
+      a.addEventListener('click', () => {
+    // Change the URL to the desired destination
+    window.location.href = item.link;
+  });
+
+    block.appendChild(a);
+    <!--block.appendChild(title);-->
+    slide.appendChild(block);
+    carousel.appendChild(slide);
+  });
+
+  // Initialize the Slick carousel
+  $(carousel).slick({
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: true,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+  }
+  
+  );
+});
+
+</script>
+
+<!--
+  Section Schema
+  The Schema is what drives the elements, blocks and presets for this particular
+  section. Elements define the setting for the section, while blocks allow you
+  to define sub-sections to add an arrange in this section.
+
+  Presets define what shows up in the theme editor when a user clicks "Add Section"
+-->
+{% schema %}
+{
+  "name": "Carousel Landing Page",
+  "elements": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "This is an example setting of a heading"
+    },
+    {
+      "type": "rich_text",
+      "id": "body",
+      "label": "Body",
+      "default": "This is an example setting of a paragraph"
+    }
+  ],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Carousel Landing Page",
+      "category": "Content",
+      "blocks": [],
+      "settings": {
+      }
+    }
+  ]
+
+}
+{% endschema %}
